@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input } from 'antd';
+import { useDisclosure } from "@chakra-ui/react";
+
 
 function EditUserModal({ user, edituser, props }) {
-    const [open, setopen] = useState(false);
+    // const [open, setopen] = useState(false);
     const [fname, setfname] = useState('');
     const [lname, setlname] = useState('');
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const showModal = () => {
-        setopen(true);
+        onOpen()
 
         setfname(user.firstName)
         setlname(user.lastName)
@@ -24,13 +27,13 @@ function EditUserModal({ user, edituser, props }) {
         //     lname
         // });
         edituser(user.id, fname, lname);
-
-        setopen(false);
+        onClose();
+        // setopen(false);
     };
 
-    const handleCancel = () => {
-        setopen(false);
-    };
+    // const handleCancel = () => {
+    //     // setopen(false);
+    // };
 
     return (
         <>
@@ -39,9 +42,10 @@ function EditUserModal({ user, edituser, props }) {
             </Button>
             <Modal
                 title="Edit User Information"
-                open={open}
+
+                visible={isOpen}
                 onOk={handleOk}
-                onCancel={handleCancel}
+                onCancel={onClose}
                 okText="Save"
                 cancelText="Close"
             >

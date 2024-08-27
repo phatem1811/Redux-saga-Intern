@@ -1,66 +1,54 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import NewUserForm from './NewUserForm';
 import UserList from './UserList';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUsersRequest, createUserRequest, deleteUserRequest, updateUserRequest } from '../actions/users';
-import { Alert } from 'reactstrap';
+// import { Alert } from 'reactstrap';
 
+const App = () => {
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.users);
 
-class App extends Component {
+  useEffect(() => {
+    dispatch(getUsersRequest());
+  }, [dispatch]);
 
-  constructor(props) {
-    super(props);
-
-    this.props.getUsersRequest();
-  }
-  handleCreateUserSubmit = ({ firstName, lastName }) => {
+  const handleCreateUserSubmit = ({ firstName, lastName }) => {
     const id = Math.random().toString(36).substr(2, 9);
-    this.props.createUserRequest({
+    dispatch(createUserRequest({
       id,
       firstName,
       lastName
-    });
+    }));
   };
-  handleDeleteUserClick = (userId) => {
-    this.props.deleteUserRequest(userId)
-  }
 
+  const handleDeleteUserClick = (userId) => {
+    dispatch(deleteUserRequest(userId));
+  };
 
-  handleUpdateUserClick = (id, firstName, lastName) => {
-    console.log(`check update data`, id, firstName, lastName)
-    this.props.updateUserRequest({
+  const handleUpdateUserClick = (id, firstName, lastName) => {
+    console.log(`check update data`, id, firstName, lastName);
+    dispatch(updateUserRequest({
       id,
       firstName,
       lastName
-    });
+    }));
+  };
 
-  }
+  return (
+    <div style={{ margin: '0 auto', padding: '20px', maxWidth: '600px' }}>
+      {/* <Alert color="danger" isOpen={!!users.error} toggle={this.handleCloseAlert}>
+        {users.error}
+      </Alert> */}
 
-  render() {
-    const users = this.props.users;
-    console.log("check user", users)
-    return (
-      <div style={{ margin: '0 auto', padding: '20px', maxWidth: '600px' }}>
+      <NewUserForm onSubmit={handleCreateUserSubmit} />
 
-        {/* <Alert color="danger" isOpen={!!this.props.users.error} toggle={this.handleCloseAlert}>
-          {this.props.users.error}
-        </Alert> */}
+      {!!users.items && !!users.items.length &&
+        <UserList onDeleteUser={handleDeleteUserClick}
+          onUpdateUser={handleUpdateUserClick}
+          users={users.items} />}
+    </div>
+  );
+};
 
-        <NewUserForm onSubmit={this.handleCreateUserSubmit} />
-
-        {!!users.items && !!users.items.length &&
-          <UserList onDeleteUser={this.handleDeleteUserClick}
-            onUpdateUser={this.handleUpdateUserClick}
-            users={users.items} />}
-
-      </div>
-    );
-  }
-}
-
-export default connect(({ users }) => ({ users }), {
-  getUsersRequest,
-  createUserRequest,
-  deleteUserRequest,
-  updateUserRequest
-})(App);
+export default App;
