@@ -22,7 +22,22 @@ export default function users(state = INITIAL_STATE, action) {
             };
         }
 
+
+        case Types.UPDATE_USER_REQUEST: {
+            const { id, firstName, lastName } = action.payload;
+
+            const updatedItems = state.items.map(user =>
+                user.id === id ? { ...user, firstName, lastName } : user
+            );
+            return {
+                ...state,
+                items: updatedItems,
+                error: "", // Reset lỗi nếu có
+            };
+        }
+
         case Types.DELETE_USER_REQUEST: {
+            console.log("check user delete", action.payload.userId);
             const updatedItems = state.items.filter((user) => user.id !== action.payload.userId);
             return {
                 ...state,
