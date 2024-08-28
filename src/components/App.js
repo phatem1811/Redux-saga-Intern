@@ -1,52 +1,86 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NewUserForm from './NewUserForm';
 import UserList from './UserList';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersRequest, createUserRequest, deleteUserRequest, updateUserRequest } from '../actions/users';
-// import { Alert } from 'reactstrap';
+import useListBase from '../hook/useListBase';
+import { Api } from "../api/config";
+import { Alert, notification, Button } from "antd";
+
+
+
 
 const App = () => {
-  const dispatch = useDispatch();
-  const users = useSelector(state => state.users);
 
-  useEffect(() => {
-    dispatch(getUsersRequest());
-  }, [dispatch]);
+  const [editingUser, setEditingUser] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const { data, handleCreate } = useListBase(Api.user);
+
+  const [User, setUser] = useState({
+    id: "",
+    firstName: "",
+    lastName: ""
+  });
+
+  console.log("dataa user", data);
+
+
 
   const handleCreateUserSubmit = ({ firstName, lastName }) => {
     const id = Math.random().toString(36).substr(2, 9);
-    dispatch(createUserRequest({
-      id,
-      firstName,
-      lastName
-    }));
+    let newUser = {
+      id: id,
+      firstName: firstName,
+      lastName: lastName
+    }
+    console.log("new user", newUser)
+    handleCreate(newUser)
   };
 
   const handleDeleteUserClick = (userId) => {
-    dispatch(deleteUserRequest(userId));
+
   };
 
-  const handleUpdateUserClick = (id, firstName, lastName) => {
-    console.log(`check update data`, id, firstName, lastName);
-    dispatch(updateUserRequest({
-      id,
-      firstName,
-      lastName
-    }));
+  const handleEditUserClick = (user) => {
+
+  };
+
+
+
+  const handleCloseAlert = () => {
+
   };
 
   return (
-    <div style={{ margin: '0 auto', padding: '20px', maxWidth: '600px' }}>
-      {/* <Alert color="danger" isOpen={!!users.error} toggle={this.handleCloseAlert}>
-        {users.error}
-      </Alert> */}
+    <div
+      style={{ margin: "0 auto", padding: "20px", maxWidth: "600px", flex: "" }}
+    >
+      {/* <Alert
+        type="error"
+        message={data.error}
+        banner
+        closable
+        onClose={handleCloseAlert}
+        style={{ marginBottom: "20px" }}
+      /> */}
 
+      <div style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        marginBottom: "20px",
+      }}
+      >
+      </div>
       <NewUserForm onSubmit={handleCreateUserSubmit} />
 
-      {!!users.items && !!users.items.length &&
-        <UserList onDeleteUser={handleDeleteUserClick}
-          onUpdateUser={handleUpdateUserClick}
-          users={users.items} />}
+
+      <UserList
+        onDeleteUser={handleDeleteUserClick}
+        onEditUser={handleEditUserClick}
+        users={data.items}
+      />
     </div>
   );
 };

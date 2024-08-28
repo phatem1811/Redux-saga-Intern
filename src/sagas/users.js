@@ -19,51 +19,51 @@ function* watchGetUsersRequest() {
     yield takeEvery(actions.Types.GET_USERS_REQUEST, getUsers);
 }
 
-function* watchCreateUserRequest() {
-    yield takeLatest(actions.Types.CREATE_USER_REQUEST, createUser);
-}
+// function* watchCreateUserRequest() {
+//     yield takeLatest(actions.Types.CREATE_USER_REQUEST, createUser);
+// }
 
-function* createUser(actions) {
-    try {
-        yield call(api.createUser, {
-            firstName: actions.payload.firstName,
-            lastName: actions.payload.lastName
+// function* createUser(actions) {
+//     try {
+//         yield call(api.createUser, {
+//             firstName: actions.payload.firstName,
+//             lastName: actions.payload.lastName
 
-        });
+//         });
 
-        // yield call(getUsers);
+//         // yield call(getUsers);
 
-    } catch (e) {
-        yield put(actions.usersError({
-            error: 'An error occurred when trying to create the user'
-        }));
-    }
-}
+//     } catch (e) {
+//         yield put(actions.usersError({
+//             error: 'An error occurred when trying to create the user'
+//         }));
+//     }
+// }
 
-function* watchDeleteUserRequest() {
-    while (true) {
-        const { payload } = yield take(actions.Types.DELETE_USER_REQUEST);
-        console.log("check payload", payload);
-        yield call(deleteUser, payload.userId);
-    }
-}
+// function* watchDeleteUserRequest() {
+//     while (true) {
+//         const { payload } = yield take(actions.Types.DELETE_USER_REQUEST);
+//         console.log("check payload", payload);
+//         yield call(deleteUser, payload.userId);
+//     }
+// }
 
-function* deleteUser(userId) {
-    try {
-        yield call(api.deleteUser, userId);
+// function* deleteUser(userId) {
+//     try {
+//         yield call(api.deleteUser, userId);
 
-        // yield call(getUsers);
-    } catch (e) {
-        yield put(actions.usersError({
-            error: 'An error occurred when trying to delete the user'
-        }));
-    }
-}
+//         // yield call(getUsers);
+//     } catch (e) {
+//         yield put(actions.usersError({
+//             error: 'An error occurred when trying to delete the user'
+//         }));
+//     }
+// }
 
 const userSagas = [
     fork(watchGetUsersRequest),
-    fork(watchCreateUserRequest),
-    fork(watchDeleteUserRequest)
+    // fork(watchCreateUserRequest),
+    // fork(watchDeleteUserRequest)
 ];
 
 export default userSagas;
