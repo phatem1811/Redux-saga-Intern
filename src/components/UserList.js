@@ -5,10 +5,10 @@ import { Api } from "../api/config";
 import EditUserModal from "./EditUser";
 
 const UserList = ({ users, onDeleteUser, onEditUser, editingUser }) => {
-    const { data, total, paginate, currentPage } = useListBase(Api.user);
+    const { data, pagination, setPagination } = useListBase(Api.user);
 
     const confirm = (userId) => {
-        console.log(userId);
+        console.log("checkid in list", userId);
         onDeleteUser(userId);
 
     };
@@ -16,13 +16,10 @@ const UserList = ({ users, onDeleteUser, onEditUser, editingUser }) => {
         console.log(e);
 
     };
-    const handleupdateuser = (id, fname, lname) => {
-        console.log("check  in userlist", id, fname, lname)
 
-    }
     return (
         <>
-            <List style={{ marginTop: "20px", marginBottom: "20px" }}
+            <List
                 dataSource={data.sort((a, b) => {
                     if (a.firstName > b.firstName) {
                         return 1;
@@ -42,7 +39,17 @@ const UserList = ({ users, onDeleteUser, onEditUser, editingUser }) => {
                                 {user.firstName} {user.lastName}
                             </div>
                             <div>
-                                <EditUserModal user={user} edituser={handleupdateuser} />
+                                {/* <EditUserModal user={user} edituser={handleupdateuser} /> */}
+                                <Button
+                                    type="primary"
+
+                                    onClick={() => {
+                                        console.log("Edit user >>> ", user);
+                                        onEditUser(user);
+                                    }}
+                                >
+                                    Edit
+                                </Button>
 
                                 <Popconfirm
                                     title="Delete User"
@@ -60,10 +67,10 @@ const UserList = ({ users, onDeleteUser, onEditUser, editingUser }) => {
                 )}
             />
             <Pagination
-                current={currentPage}
-                total={total}
-                pageSize={5}
-                onChange={paginate}
+                current={pagination.currentPage}
+                total={pagination.total}
+                pageSize={pagination.pageSize}
+                onChange={(page) => setPagination((prev) => ({ ...prev, currentPage: page }))}
                 align="end"
             />
         </>

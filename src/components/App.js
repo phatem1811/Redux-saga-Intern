@@ -1,70 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import NewUserForm from './NewUserForm';
+
 import UserList from './UserList';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUsersRequest, createUserRequest, deleteUserRequest, updateUserRequest } from '../actions/users';
 import useListBase from '../hook/useListBase';
 import { Api } from "../api/config";
 import { Alert, notification, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 const App = () => {
 
-  const [editingUser, setEditingUser] = useState(null);
-
-  const dispatch = useDispatch();
-
-  const { data, handleCreate } = useListBase(Api.user);
-
-  const [User, setUser] = useState({
-    id: "",
-    firstName: "",
-    lastName: ""
-  });
-
-  console.log("dataa user", data);
+  const navigate = useNavigate()
 
 
+  const { data, handleDeleteUser } = useListBase(Api.user);
+  console.log("check dataa", data)
 
-  const handleCreateUserSubmit = ({ firstName, lastName }) => {
-    const id = Math.random().toString(36).substr(2, 9);
-    let newUser = {
-      id: id,
-      firstName: firstName,
-      lastName: lastName
-    }
-    console.log("new user", newUser)
-    handleCreate(newUser)
-  };
-
-  const handleDeleteUserClick = (userId) => {
-
+  const handleDeleteUserClick = (id) => {
+    console.log("check id delete", id)
+    handleDeleteUser(id)
   };
 
   const handleEditUserClick = (user) => {
 
+    navigate(`/user/${user.id}`, { state: user });
   };
 
 
 
-  const handleCloseAlert = () => {
-
+  const handleCreate = () => {
+    navigate(`/user`, { state: "Create" });
   };
 
   return (
     <div
       style={{ margin: "0 auto", padding: "20px", maxWidth: "600px", flex: "" }}
     >
-      {/* <Alert
-        type="error"
-        message={data.error}
-        banner
-        closable
-        onClose={handleCloseAlert}
-        style={{ marginBottom: "20px" }}
-      /> */}
 
       <div style={{
         display: "flex",
@@ -73,7 +45,9 @@ const App = () => {
       }}
       >
       </div>
-      <NewUserForm onSubmit={handleCreateUserSubmit} />
+      <Button type='primary' onClick={handleCreate}>
+        Create
+      </Button>
 
 
       <UserList
