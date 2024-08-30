@@ -4,12 +4,15 @@ import { apiInstance } from "../api/config";
 const useFetch = () => {
     const [data, setData] = useState(null);
 
-    const fetchData = useCallback(async (id, url, method, values) => {
-        console.log("check data in useFetch", id + url + method + values)
 
+    const fetchData = useCallback(async (url, method, values = null, pathParams = {}) => {
+
+
+
+        console.log("check url in fetch", pathParams.id)
         try {
             const response = await apiInstance({
-                url: url + id,
+                url: url + pathParams.id,
                 method: method,
                 data: values,
             });

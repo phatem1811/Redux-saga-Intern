@@ -17,9 +17,14 @@ const App = () => {
   console.log("check dataa", data)
 
   const handleDeleteUserClick = (id) => {
-    console.log("check id delete", id)
+
+
+    // console.log("check id delete", id)
+    // let url = `${Api.user.deleteUser.url}${id}`
+
+
     // api.Delete(id, Api.user.deleteUser.url, Api.user.deleteUser.method)
-    fetchData(id, Api.user.deleteUser.url, Api.user.deleteUser.method)
+    fetchData(Api.user.deleteUser.url, Api.user.deleteUser.method, null, { id: id })
   };
 
   const handleEditUserClick = (user) => {

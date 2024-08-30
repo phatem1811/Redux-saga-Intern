@@ -23,9 +23,11 @@ const useSaveBase = (apiCreate, apiUpdate) => {
 
                 if (id) {
                     //update
-                    fetchData(id, apiUpdate.url, apiUpdate.method, values)
+
+                    fetchData(apiUpdate.url, apiUpdate.method, values, { id: id })
 
                     // api.update(id, values, apiUpdate.url, apiUpdate.method)
+
                     const url = getPreUrl(getUrl)
                     navigate(url);
 
@@ -33,7 +35,7 @@ const useSaveBase = (apiCreate, apiUpdate) => {
                 else {
                     //create
                     console.log("check create user", values)
-                    fetchData(id, apiCreate.url, apiCreate.method, values)
+                    fetchData(apiCreate.url, apiCreate.method, values)
 
                     // api.create(values, apiCreate.url, apiCreate.method)
                     const url = getPreUrl(getUrl)
