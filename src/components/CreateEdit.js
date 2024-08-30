@@ -12,9 +12,10 @@ const EditUser = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const saveNewUser = useSaveBase()
+    const saveNewUser = useSaveBase(Api.user.createUser, Api.user.updateUser)
 
     console.log("check location", location)
+    const getUrl = location.pathname.split("/")[1]
 
 
     useEffect(() => {
@@ -23,18 +24,15 @@ const EditUser = () => {
                 firstName: location.state.firstName,
                 lastName: location.state.lastName,
             });
-
-
         } else {
             form.resetFields();
-
 
         }
     }, [form]);
 
     const handleSubmit = (values) => {
 
-        saveNewUser(id, values, Api.user.createUser.url, Api.user.createUser.method);
+        saveNewUser(id, values, getUrl);
 
 
 
