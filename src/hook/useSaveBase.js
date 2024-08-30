@@ -1,23 +1,21 @@
 import { useCallback } from "react";
 import { notification } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as api from "../api/users";
+import { Api } from "../api/config";
 import useListBase from "./useListBase";
 
 const useSaveBase = () => {
     const navigate = useNavigate();
-    const { handleCreateUser, handleUpdateUser } = useListBase()
     const saveNewUser = useCallback(
-        async (id, values) => {
-
+        async (id, values, url, method) => {
 
             try {
                 console.log("check id truyền vao", id)
 
                 if (id) {
-                    console.log("check user update in useSave", values)
 
-                    handleUpdateUser(id, values)
+                    api.update(id, values, url, method)
 
                 }
                 else {
@@ -25,7 +23,7 @@ const useSaveBase = () => {
 
 
                     console.log("check create user", values)
-                    handleCreateUser(values)
+                    api.create(values, url, method)
                     navigate("/");
                 }
 

@@ -13,13 +13,13 @@ export const getUsers = async () => {
         console.error("Failed to get users", e);
     }
 };
-export const createUser = async (newUser) => {
+export const create = async (values, url, method) => {
     try {
-        console.log("check data in api", newUser)
+        console.log("check data in api", values)
         const response = await apiInstance({
-            url: Api.user.createUser.url,
-            method: Api.user.createUser.method,
-            data: newUser,
+            url: url,
+            method: method,
+            data: values,
         });
         console.log("check respone create", response)
         return response;
@@ -28,22 +28,14 @@ export const createUser = async (newUser) => {
     }
 };
 
-export const updateUser = async (id, firstName, lastName) => {
+export const update = async (id, values, url, method) => {
     try {
-        console.log("check data update in api", id, firstName, lastName)
-
-
-        // const response = await axios.put('https://mithril-rem.fly.dev/api/users/' + id, {
-        //     firstName: firstName,
-        //     lastName: lastName,
-
-        // })
 
 
         const response = await apiInstance({
-            url: Api.user.updateUser.url + id,
-            method: Api.user.updateUser.method,
-            data: { firstName, lastName },
+            url: url + id,
+            method: method,
+            data: values,
         });
         console.log("check respone update", response)
         return response;
@@ -52,13 +44,13 @@ export const updateUser = async (id, firstName, lastName) => {
 
     } catch (e) { }
 };
-export const deleteUser = async (id) => {
+export const Delete = async (id, url, method) => {
     try {
         console.log("check data delete in api", id)
 
         const response = await apiInstance({
-            url: Api.user.deleteUser.url + id,
-            method: Api.user.deleteUser.method,
+            url: url + id,
+            method: method,
         });
         console.log("check respone update", response)
         return response;
