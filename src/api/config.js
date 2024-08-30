@@ -17,5 +17,13 @@ export const Api = {
             url: "/users",
             method: "POST",
         },
+        updateUser: {
+            url: "/users/",
+            method: "PUT",
+        },
+        deleteUser: {
+            url: "/users/",
+            method: "DELETE",
+        },
     },
 };
