@@ -8,28 +8,24 @@ const useSaveBase = () => {
     const navigate = useNavigate();
     const { handleCreateUser, handleUpdateUser } = useListBase()
     const saveNewUser = useCallback(
-        async (id, user) => {
+        async (id, values) => {
 
 
             try {
                 console.log("check id truyền vao", id)
 
                 if (id) {
-                    console.log("check user update in useSave", user)
+                    console.log("check user update in useSave", values)
 
-                    handleUpdateUser(id, user.firstName, user.lastName)
+                    handleUpdateUser(id, values)
 
                 }
                 else {
                     console.log("check create in useSave")
-                    const id = Math.random().toString(36).substr(2, 9);
-                    let newUser = {
-                        id: id,
-                        firstName: user.firstName,
-                        lastName: user.lastName
-                    }
-                    console.log("check create user", newUser)
-                    handleCreateUser(newUser)
+
+
+                    console.log("check create user", values)
+                    handleCreateUser(values)
                     navigate("/");
                 }
 

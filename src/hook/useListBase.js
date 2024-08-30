@@ -33,19 +33,25 @@ const useListBase = (apiConfig) => {
         pagination.currentPage * pagination.pageSize
     );
 
-    const handleCreateUser = async (newUserData) => {
+    const handleCreateUser = async (values) => {
+        const id = Math.random().toString(36).substr(2, 9);
+        let newUser = {
+            id: id,
+            firstName: values.firstName,
+            lastName: values.lastName
+        }
         try {
-            console.log("check data in use hook", newUserData)
-            await api.createUser(newUserData);
+            console.log("check data in use hook", newUser)
+            await api.createUser(newUser);
             fetchData();
         } catch (e) {
             console.error("Failed to create user", e);
         }
     };
-    const handleUpdateUser = async (id, firstName, lastName) => {
+    const handleUpdateUser = async (id, values) => {
         try {
-            console.log("check update in use hook", id, firstName, lastName)
-            await api.updateUser(id, firstName, lastName);
+            console.log("check update in use hook", id, values.firstName, values.lastName)
+            await api.updateUser(id, values.firstName, values.lastName);
             fetchData();
         } catch (e) {
             console.error("Failed to update user", e);
