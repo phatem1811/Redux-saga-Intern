@@ -15,7 +15,7 @@ const useListBase = (apiConfig) => {
 
     const fetchData = async () => {
         try {
-            const res = await api.getUsers();
+            const res = await api.getlist();
             setData(res.data.data);
             setFilteredData(res.data.data);
             setPagination((prev) => ({

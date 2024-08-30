@@ -3,28 +3,43 @@ import { notification } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as api from "../api/users";
 import { Api } from "../api/config";
-import useListBase from "./useListBase";
+import useFetch from "./useFetch";
 
-const useSaveBase = () => {
+const useSaveBase = (apiCreate, apiUpdate) => {
+    const { fetchData } = useFetch()
     const navigate = useNavigate();
+    const getPreUrl = (getUrl) => {
+        if (getUrl) {
+            return `/${getUrl}`;
+        }
+        return navigate(-1);
+    };
+
     const saveNewUser = useCallback(
-        async (id, values, url, method) => {
+        async (id, values, getUrl) => {
 
             try {
-                console.log("check id truyền vao", id)
+                console.log("check api create truyền vao", apiCreate)
 
                 if (id) {
+                    //update
+                    fetchData(id, apiUpdate.url, apiUpdate.method, values)
 
-                    api.update(id, values, url, method)
+                    // api.update(id, values, apiUpdate.url, apiUpdate.method)
+                    const url = getPreUrl(getUrl)
+                    navigate(url);
 
                 }
                 else {
-                    console.log("check create in useSave")
-
-
+                    //create
                     console.log("check create user", values)
-                    api.create(values, url, method)
-                    navigate("/");
+                    fetchData(id, apiCreate.url, apiCreate.method, values)
+
+                    // api.create(values, apiCreate.url, apiCreate.method)
+                    const url = getPreUrl(getUrl)
+
+                    navigate(url);
+
                 }
 
                 // Navigate to home or another page after saving
