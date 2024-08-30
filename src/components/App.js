@@ -6,19 +6,25 @@ import { Api } from "../api/config";
 import { Alert, notification, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import * as api from "../api/users";
-
+import useFetch from '../hook/useFetch';
 
 const App = () => {
 
   const navigate = useNavigate()
-
+  const { fetchData } = useFetch()
 
   const { data, handleDeleteUser } = useListBase(Api.user);
   console.log("check dataa", data)
 
   const handleDeleteUserClick = (id) => {
-    console.log("check id delete", id)
-    api.Delete(id, Api.user.deleteUser.url, Api.user.deleteUser.method)
+
+
+    // console.log("check id delete", id)
+    // let url = `${Api.user.deleteUser.url}${id}`
+
+
+    // api.Delete(id, Api.user.deleteUser.url, Api.user.deleteUser.method)
+    fetchData(Api.user.deleteUser.url, Api.user.deleteUser.method, null, { id: id })
   };
 
   const handleEditUserClick = (user) => {
@@ -29,7 +35,7 @@ const App = () => {
 
 
   const handleCreate = () => {
-    navigate(`/user`, { state: "Create" });
+    navigate(`/user/create`, { state: "Create" });
   };
 
   return (

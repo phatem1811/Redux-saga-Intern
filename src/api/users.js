@@ -2,7 +2,7 @@ import axios from "axios";
 import { apiInstance, Api } from "./config";
 
 
-export const getUsers = async () => {
+export const getlist = async () => {
     try {
         const response = await apiInstance({
             url: Api.user.getUser.url,
@@ -15,7 +15,7 @@ export const getUsers = async () => {
 };
 export const create = async (values, url, method) => {
     try {
-        console.log("check data in api", values)
+        console.log("check  in api", values)
         const response = await apiInstance({
             url: url,
             method: method,
@@ -30,8 +30,7 @@ export const create = async (values, url, method) => {
 
 export const update = async (id, values, url, method) => {
     try {
-
-
+        console.log("check values in api", url)
         const response = await apiInstance({
             url: url + id,
             method: method,

@@ -4,7 +4,7 @@ import * as api from '../api/users';
 
 function* getUsers() {
     try {
-        const result = yield call(api.getUsers);
+        const result = yield call(api.getlist);
         yield put(actions.getUsersSuccess({
             items: result.data.data
         }));
@@ -16,7 +16,7 @@ function* getUsers() {
 }
 
 function* watchGetUsersRequest() {
-    yield takeEvery(actions.Types.GET_USERS_REQUEST, getUsers);
+    yield takeEvery(actions.Types.GET_USERS_REQUEST, api.getlist);
 }
 
 // function* watchCreateUserRequest() {

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Modal, Button, Form, Input, message, label } from 'antd';
 import useDisclosure from '../hook/useDisclosure';
 import useSaveBase from '../hook/useSaveBase';
+import * as api from "../api/users";
 
 function EditUserModal({ user, edituser }) {
     const { isOpen, open, close } = useDisclosure();
     const [fname, setfname] = useState('');
     const [lname, setlname] = useState('');
-    const { useSave } = useSaveBase()
+
     const showModal = () => {
         open();
         setfname(user.firstName);
