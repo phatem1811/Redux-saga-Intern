@@ -26,4 +26,5 @@ export const Api = {
             method: "DELETE",
         },
     },
+
 };

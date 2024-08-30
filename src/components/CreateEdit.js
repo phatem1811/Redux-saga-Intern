@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Input } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useSaveBase from "../hook/useSaveBase";
-
+import * as api from "../api/users";
+import { Api } from "../api/config";
 const EditUser = () => {
     const [form] = Form.useForm();
 
@@ -33,7 +34,7 @@ const EditUser = () => {
 
     const handleSubmit = (values) => {
 
-        saveNewUser(id, values);
+        saveNewUser(id, values, Api.user.createUser.url, Api.user.createUser.method);
 
 
 

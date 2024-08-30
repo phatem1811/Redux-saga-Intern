@@ -5,8 +5,7 @@ import useListBase from '../hook/useListBase';
 import { Api } from "../api/config";
 import { Alert, notification, Button } from "antd";
 import { useNavigate } from "react-router-dom";
-
-
+import * as api from "../api/users";
 
 
 const App = () => {
@@ -19,7 +18,7 @@ const App = () => {
 
   const handleDeleteUserClick = (id) => {
     console.log("check id delete", id)
-    handleDeleteUser(id)
+    api.Delete(id, Api.user.deleteUser.url, Api.user.deleteUser.method)
   };
 
   const handleEditUserClick = (user) => {

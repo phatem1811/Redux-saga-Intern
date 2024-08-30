@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as api from "../api/users";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const useListBase = (apiConfig) => {
     const [data, setData] = useState([]);
@@ -33,41 +34,12 @@ const useListBase = (apiConfig) => {
         pagination.currentPage * pagination.pageSize
     );
 
-    const handleCreateUser = async (newUserData) => {
-        try {
-            console.log("check data in use hook", newUserData)
-            await api.createUser(newUserData);
-            fetchData();
-        } catch (e) {
-            console.error("Failed to create user", e);
-        }
-    };
-    const handleUpdateUser = async (id, firstName, lastName) => {
-        try {
-            console.log("check update in use hook", id, firstName, lastName)
-            await api.updateUser(id, firstName, lastName);
-            fetchData();
-        } catch (e) {
-            console.error("Failed to update user", e);
-        }
-    };
-    const handleDeleteUser = async (id) => {
-        try {
-            console.log("check update in use hook", id)
-            await api.deleteUser(id);
-            fetchData();
-        } catch (e) {
-            console.error("Failed to update user", e);
-        }
-    };
-
 
     return {
         data: pageData,
         pagination,
         setPagination,
-        handleCreateUser,
-        handleUpdateUser, handleDeleteUser
+
     };
 };
 
